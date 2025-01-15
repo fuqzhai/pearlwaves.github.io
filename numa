@@ -1,0 +1,40 @@
+1.
+NUMA:非一致性内存访问：一种计算机硬件架构，在其中处理器合内存被分成多个节点，每个节点都有自己本地内存
+Linux中优化NUMA性能方法
+使用taskset命令将一个进程或线程绑定到一个特定的NUMA节点上，比如将进程A绑定到第2个NUMA节点
+taskset -c 2 进程A
+
+numactl命令控制内存和资源
+numactl是linux系统当中的一个工具，用于管理NUMA架构下的内存和CPU资源分配
+numactl --hardwarew
+numactl --membind=nodeid command到指定的NUMA节点上面
+numastat
+2.
+MPP（大模型并行处理架构）
+由多台SMP服务器端通过节点互联进行连接，协同工作完成相同的任务，从用户角度来看，它则是服务器系统，每个节点只访问自己的资源（完全无共享结构）
+
+3.内存管理参数：/sys/kernel/mm目录中的文件调整内存管理参数
+swap空间：硬盘上的虚拟内存，当系统中物理内存不组时，系统将会将不活跃的数据从物理内存移动到swap空间中，可以使用swapon/swapoff命令在运行时添加，删除swap空间，并使用/etc/fstab文件配置永久性交换设备
+内核同一性检查：是一项由Linux内核提供的功能，允许多个进程共享相同页面以节省内存，编辑/etc/ksmtuned.conf文件来调整ksm配置
+Huge Pages：使用更大页面尺寸来映射内存地址 /sys/kernel/mm/hugepages目录的文件调整hugepage数量和大小
+numactl：
+
+4.动手调整内存策略
+
+5.优化CPU亲和力
+使用taskset命令将进程或线程直接绑定在特定的CPU核上
+taskset命令：将一个进程绑定到特定的CPU或CPU集上
+cpuset子系统
+cgroups（控制组）
+numa调度器：/sys/devices/system/node/目录中的文件进行配置
+irqbalance
+
+Linux内核性能调优常见参数
+1.vm.swappiness(控制系统对交换空间的使用程序)，它的范围从0--100，默认值为60，数值越高，系统更倾向于将数据存放到交换空间中
+2.vm.dirty_background_ratio/vm.dirty_ratio 控制脏页面再内存中的数量，默认情况是10、20
+3.vm.vfs_cache_pressure(控制系统释放缓存inode、dentry对象所需要的压力)，默认情况该值为100
+4.net.core.somaxconn,定义TCP套接字队列的最大长度，默认值为128
+5.net.ipv4_tcp_tw_resue/net.
+6.kernel.sched_min_granularity_ns/kernel.sched_wakeup_granularity_ns Linux内核调度程序的方法，减少CPU上下文切换的数量提高系统性能
+
+
